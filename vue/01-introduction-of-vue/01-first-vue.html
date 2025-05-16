@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!--이 영역에서는 Vue의 instance 로 관리-->
+  <div id="app">
+
+    <p> {{ message }} </p>
+    <!--사용자와의 상호작용-->
+    <button v-on:click="count++">
+      Count is {{count}}
+    </button>
+  </div>
+
+  <div id="app2">
+    <h1> 안녕하세요. 제 이름은 {{username}} 입니다. </h1>
+
+  </div>
+
+  <!--Vue CDN-->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    console.log(Vue)
+
+    // vue 라는 객체에 정의된 함수를 createApp에 할당 해주는거지
+    // const createApp = Vue.createApp
+    // Vue가 가지고 있는 다양한 메서드와 property 등을 여러개 가져와서 쓸 것
+    // const ref = Vue.ref
+    const { createApp, ref } = Vue
+    const app = createApp({
+      // setup 함수
+      setup() {
+        // 상태 관리 
+        const message = 'hello vue'
+        // 사용자와의 상호작용으로 변경되거나 관리해야 하는 상태는
+        // 반응성 객체를 사용해서 별도로 관리
+        // vue 가 가지고 있는 ref 를 사용해서 변수 선언
+        const count = ref(0)
+
+        count.value += 1
+
+        console.log(count)
+        console.log(count.value)
+        // setup 함수가 하는 일은 한개의 object 를 return
+        return {
+          // message: message
+          message,   // key 와 value 값이 같으면 축약 가능
+          count
+        }
+
+      }
+    })
+
+    // 너는 아이디가 app인 영역을 관리해
+    app.mount('#app')
+
+    const app2 = createApp({
+      setup() {
+        const username = ref('앨리스')
+        return {
+          username
+        }
+      }
+    })
+    app2.mount('#app2')
+  </script>
+
+</body>
+
+</html>
